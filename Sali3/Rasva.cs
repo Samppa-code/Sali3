@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq.Expressions;
 using System.Text;
+using System.Threading.Tasks.Dataflow;
 
 namespace Sali3
 {
@@ -28,8 +30,20 @@ namespace Sali3
             float pituusM = float.Parse(pituus);
 
             // Lasketaan painoindeksi ja palautetaan se
-            float bmi = painoKg / (pituusM * pituusM);
-            return bmi;
+            try
+            {
+                float bmi = painoKg / (pituusM * pituusM);
+                return bmi;
+            }
+            catch (Exception)
+            {
+                Console.Beep();
+                float bmi = 0;
+                return bmi;
+                throw;
+            }
+            
+            
         }
         //Staattinen metodi, jolla rasvaprosentti voidaan laskea ilman oliota
         static public float laskeRasva2(float bmi, int ika, string sukupuoli)

@@ -54,6 +54,15 @@ namespace Sali3
         protected string sukupuoli;
         protected string syntymaAika;
 
+        public string Syntymäaika
+        {
+            get { return syntymaAika; }
+        }
+        public string Sukupuoli
+        {
+            get { return sukupuoli; }
+        }
+
         // Muodostin kaikilla parametreillä
         public Jasen(string etu, string suku, string katu, string pnro, string paikka, string id, string sukup, string saika)
         {
