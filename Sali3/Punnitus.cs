@@ -20,16 +20,7 @@ namespace Sali3
             this.pituus = pituus;
         }
 
-        public float BMI()
-        {
-            // Muutetaan olion merkkijono-ominaisuudet liukuluvuiksi (float)
-            float paino = float.Parse(this.paino);
-            float pituus = float.Parse(this.pituus);
-
-            // Lasketaan painoindeksi ja palautetaan se
-            float bmi = paino / (pituus * pituus);
-            return bmi;
-        }
+        
         // Testausmetodi punnitustietojen näyttämiseen
         public void naytaPunnitus()
         {

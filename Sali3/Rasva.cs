@@ -1,80 +1,59 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 
 namespace Sali3
 {
     class Rasvaprosentti
     {
-        // Määritellään kentät (field), huom. nimi pienellä
-        protected string sukupuoli;
-        protected string ika;
 
-        // Samat tiedot ominaisuuksina (property), huom nimi isolla
-        public string Sukupuoli
+        //Staattinen metodi iän laskemiseksi
+        static public int Ika(string syntymapaiva)
         {
-            get
-            { return sukupuoli; }
-            set
-            { sukupuoli = value; }
+            CultureInfo cultureInfo = new CultureInfo("fi-FI");
+            DateTime vuosinolla = new DateTime(1, 1, 1);
+            DateTime spaiva = DateTime.Parse(syntymapaiva, cultureInfo);
+            DateTime tanaan = DateTime.Now;
+            TimeSpan ero = tanaan - spaiva;
+            int ika = (vuosinolla + ero).Year - 1;
+            return ika;
+
         }
-
-        public string Ika
+        //Staattinen metodi painoindeksin laskemiseksi
+        static public float BMI(string pituus, string paino)
         {
-            get
-            { return ika; }
-            set
-            { ika = value; }
+            // Muutetaan olion merkkijono-ominaisuudet liukuluvuiksi (float)
+            float painoKg = float.Parse(paino);
+            float pituusM = float.Parse(pituus);
+
+            // Lasketaan painoindeksi ja palautetaan se
+            float bmi = painoKg / (pituusM * pituusM);
+            return bmi;
         }
-
-        // Sama voitaisiin tehdä lyhyemmin
-        public string Vuotta { get; set; }
-        public string Spuoli { get; set; }
-
-        // Ominaisuus voidaan myös tehdä sellaiseksi, että sitä voi vain lukea, muttei muuttaa
-        public string VuottaVanha { get; }
-
-        // Ominaisuus voidaan myös määritellä vain muokattavaksi
-        public string Sukup { get; set; }
-
-        // Oletusmuodostin
-        public Rasvaprosentti()
+        //Staattinen metodi, jolla rasvaprosentti voidaan laskea ilman oliota
+        static public float laskeRasva2(float bmi, int ika, string sukupuoli)
         {
-            this.sukupuoli = "Nainen";
-            this.ika = "0";
-        }
-
-        //Muodostin kaikilla parametreillä
-        public Rasvaprosentti(string sukupuoli, string ika)
-        {
-            this.sukupuoli = sukupuoli;
-            this.ika = ika;
-        }
-        public float laskeRasva(float pituus, float paino)
-        {
-            float bmi = paino / (pituus * pituus);        
-            float sukupuolikerroin = 0;
-            if (this.sukupuoli == "Mies")
-                {
-                sukupuolikerroin = 1;
-                }
-
-            float rasva = (1.2F * bmi) + (0.23F * float.Parse(this.ika)) - (10.8F * sukupuolikerroin) - 5.4F;
-            return rasva;
-        }
-       //Staattinen metodi, jolla rasvaprosentti voidaan laskea ilman oliota
-        static public float laskeRasva2(float paino, float pituus, float ika, string sukupuoli)
-        {
-            float bmi = paino / (pituus * pituus);
+            
+            
             float sukupuolikerroin = 0;
             sukupuoli = sukupuoli.ToLower();
             if (sukupuoli == "mies")
             {
                 sukupuolikerroin = 1;
             }
-            float rasva = (1.2F * bmi) + (0.23F * ika) - (10.8F * sukupuolikerroin) -5.4f;
-            return rasva;
-
+            if (ika < 16)
+            {
+                float rasva = (1.51f * bmi) - (0.70F * ika) - (3.6F * sukupuolikerroin) + 1.4f;
+                return rasva;
+            }
+            else
+            {
+                float rasva = (1.2F * bmi) + (0.23F * ika) - (10.8F * sukupuolikerroin) - 5.4f;
+                return rasva;
+            }
+            
+            
         }
     }
 }
